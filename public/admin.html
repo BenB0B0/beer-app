@@ -1,0 +1,19 @@
+<div ng-show="isAdmin && authenticated">
+	<h1>Users List</h1> <hr>
+	<div ng-repeat="user in users" class="delete-user"> 
+		<strong>User: </strong>{{user.username}} <br>
+		<strong>Created at: </strong>{{user.created_at | date:"h:mma 'on' MMM d, y"}} <br>
+		<strong>Admin: </strong>{{user.admin}} <br>
+		<button ng-show="!areYouSure" ng-click="areYouSure = true" class="btn btn-danger btn-xs">Delete User</button>
+
+		<div ng-show="areYouSure">
+			 Are you sure?
+			<button ng-click="delete(user)" class="btn btn-danger btn-xs">Yes!</button>
+			<button ng-click="areYouSure = false" class="btn btn-success btn-xs">No!</button>
+			(Note: This will delete the user from the database but their posts will remain)
+		</div>
+
+	</div>
+</div>
+
+

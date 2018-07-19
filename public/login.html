@@ -1,0 +1,17 @@
+<form class="form-auth" ng-submit="login()">
+  <h2>Log In</h2>
+  
+   <p class="text-warning">{{error_message}}</p>
+  
+  <div class="input-group">
+    <span class="input-group-addon form-icon"><i class="glyphicon glyphicon-user"></i></span>
+  <input type="username" ng-model="user.username" placeholder="Username" class="form-control" maxlength="20"><br>
+  </div>
+  
+  <div class="input-group">
+    <span class="input-group-addon form-icon"><i class="glyphicon glyphicon-lock"></i></span>
+  <input type="password" ng-model="user.password" placeholder="Password" class="form-control" maxlength="20"><br>
+  </div>
+    
+  <input type="submit" value="Log in" class="btn btn-primary login-btn" />
+</form>

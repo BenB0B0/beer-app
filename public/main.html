@@ -1,0 +1,129 @@
+<div class="clearfix" >
+  <!-- ****************************************** INPUT FORMS ************************************************ -->
+  <div class="post-section">
+    <!-- **** Search Box **** -->
+    <input ng-hide="hideSearchBox" ng-model="searchText" placeholder="Search..." class="search" maxlength="80"></input>
+    <!-- clear button -->
+    <button ng-show="showClearBtn(searchText)" class="btn btn-danger btn-xs search" 
+      ng-click="searchText = ''; hideSearchBox=false">Clear</button>
+    <!-- back button -->
+    <button ng-show="showBackToBeerList(searchText)" class="btn btn-info search" 
+    ng-click="searchText = ''; beerList(); hideSearchBox=false">Back to the Beer List!</button>
+    <!-- **** Beer Rating Forms **** -->
+    <form ng-Submit="post()" ng-show="authenticated" ng-hide="hideBeerForms(searchText)">
+      <div class="form-control-center">
+      <h3 style="color:#17202A;"><strong>@{{current_user}}</strong> is reviewing a beverage:</h3> 
+      <!-- beer name -->
+      <input required class="form-control" style="resize:none" maxlength="30" rows="1" placeholder="Beer Name" 
+             ng-model="newBeer.beerNameText"></input>
+      <!-- beer type -->       
+      <input class="form-control" style="resize:none" maxlength="30" rows="1" placeholder="Beer Type/Style" 
+             ng-model="newBeer.beerTypeText"></input>
+      <!-- beer rating -->
+      <div class="star-rating-container star-rating" ng-repeat="i in [1,2,3,4,5,6,7,8,9,10] track by $index">
+         <p ng-click="newBeer.beerRatingText = $index + 1; starClicked=true; star= $index" ng-class="{'star-clicked': newBeer.beerRatingText >= $index + 1}"> &#x2605 </p>
+      </div>
+      <img ng-if="whichSmiley(newBeer.beerRatingText)===9" class="rating-image-preview" src="\img\9_face.png"></img> 
+      <img ng-if="whichSmiley(newBeer.beerRatingText)===7" class="rating-image-preview" src="\img\7_face.png"></img> 
+      <img ng-if="whichSmiley(newBeer.beerRatingText)===5" class="rating-image-preview" src="\img\5_face.png"></img> 
+      <img ng-if="whichSmiley(newBeer.beerRatingText)===3" class="rating-image-preview" src="\img\3_face.png"></img> 
+      <img ng-if="whichSmiley(newBeer.beerRatingText)===1" class="rating-image-preview" src="\img\1_face.png"></img>
+      
+      <input required class="form-control rating-box" style="resize:none;color:{{rating_box_text_color}};background-color:{{rating_box_color}}" maxlength="2" rows="1" placeholder="0" 
+             ng-model="newBeer.beerRatingText" disabled></input>
+      <!-- beer comments -->
+      <textarea class="form-control" style="resize:none" maxlength="100" rows="2" placeholder="Additional Comments..." 
+             ng-model="newBeer.beerCommentsText"></textarea>
+      </div>
+      <!-- submit button -->
+      <input ng-disabled="newBeer.beerRatingText == 0" class="btn submit-btn pull-right" type="submit" value="Submit"/>
+    </form>
+  </div>
+
+  <!-- ****************************************** BEER LIST ************************************************ -->
+  <div id="post-stream">
+
+    <!-- **** User Stats **** -->
+      <div class="user-stats" ng-show="showBackToBeerList(searchText) && Beer_List != ''">
+        <h4>@{{searchText}} -</h4>
+          <p>Favorite beer(s): <strong>{{favoriteBeers.join(", ")}}</strong></p>
+          <p>Prefered beer type(s): <strong>{{topRatedType.join(", ")}}</strong></p>
+      </div>
+
+    <h4 style="color:#17202A;">{{Beer_List}}</h4>
+
+    <!-- **** Beer Stats **** -->
+    <h4 ng-show="showBackToBeerList(searchText) && Beer_List ===''" style="color:#17202A;">Beer Stats -</h4>
+        <div ng-click="beerStatsClicked()" class="beer-stats" style="background-color: {{beer_stats_color}}" ng-show="showBackToBeerList(searchText) && Beer_List ===''" >
+          <p>This beer is <strong>{{beer_stats_word}}</strong>.</p>
+          <p>It has been reviewed <strong>{{amountRated}}</strong> time(s). </p>
+          <p>And has an average rating of <strong>{{averageRating}}</strong>. </p>
+        </div>
+    
+    <div ng-show="show_more_info">
+         <strong style="padding-bottom:10px;">More Info:</strong>
+        <div class="more-info">
+          <p>Similar Beers: </p>
+          <p>Best Glassware:  </p>
+          <p>Food Pairings:  </p>
+          <a>More Info about {{searchText}} Here</a>
+      </div>
+    </div>
+    
+
+        <!-- **** Ng Repeat Posts **** -->
+        <div class="post" ng-repeat="post in posts | orderBy:'created_at':true | filter:searchText | limitTo:beer_pagination_amount:beer_start_index as filteredItems" 
+             ng-class-odd="'odd'" ng-class-even="'even'"> 
+          <!-- beer name -->
+          <span class="badge">{{post.beerRatingText}}</span>
+          <div class="beer-info"><p class="beer-info-title">Name:</p>
+            <p class="beer-info-content large-font can-click"
+            ng-click="userPosts(post.beerNameText); beerFilter(post.beerNameText); beerStats(post.beerNameText)"> 
+            {{post.beerNameText}}</p></div>
+          <!-- beer type -->
+          <div class="beer-info"><p class="beer-info-title">Type/Style:</p>
+            <p class="beer-info-content"> {{post.beerTypeText}}</p></div>
+          <!-- beer rating -->
+          <div class="beer-info"><p class="beer-info-title">Rating:</p>
+            <p class="beer-info-content large-font">
+            <img ng-if="whichSmiley(post.beerRatingText)===9" class="rating-image" src="\img\9_face.png" title={{post.beerRatingText}}></img> 
+            <img ng-if="whichSmiley(post.beerRatingText)===7" class="rating-image" src="\img\7_face.png" title={{post.beerRatingText}}></img> 
+            <img ng-if="whichSmiley(post.beerRatingText)===5" class="rating-image" src="\img\5_face.png" title={{post.beerRatingText}}></img> 
+            <img ng-if="whichSmiley(post.beerRatingText)===3" class="rating-image" src="\img\3_face.png" title={{post.beerRatingText}}></img> 
+            <img ng-if="whichSmiley(post.beerRatingText)===1" class="rating-image" src="\img\1_face.png" title={{post.beerRatingText}}></img>
+            </p>
+          </div>
+          <!-- beer comments -->
+          <div class="beer-info"><p class="beer-info-title">Additional Comments:</p>
+            <p class="beer-info-content"> {{post.beerCommentsText}}</p></div>
+
+          <!-- **** Post Footer **** -->
+          <div class="footer-post-info">
+            <!-- user name -->
+            <small> Posted by 
+              <strong ng-click="userPosts(post.created_by); userStats(post.created_by);" style="cursor: pointer">@{{post.created_by}}</strong>
+            </small> 
+            <small ng-show="(authenticated && current_user==post.created_by) || (isAdmin && authenticated)"> - </small>
+            <!-- **** Edit Button **** -->
+            <button ng-show="(authenticated && current_user==post.created_by) || (isAdmin && authenticated)" ng-click="editClicked=true" 
+                    class="btn btn-default btn-xs">Delete</button>
+            <button ng-show="editClicked" ng-click="delete(post)" class="btn btn-danger btn-xs">Remove?</button>
+            <button ng-show="editClicked" ng-click="editClicked=false" class="btn btn-success btn-xs">X</button>
+            <!-- **** Created at Date Pull Right **** -->
+            <small class="pull-right">Reviewed at: {{post.created_at | date:"h:mma 'on' MMM d, y"}}</small>
+          </div>
+        </div>
+  </div>
+  <ul class="pager">
+    <li style="cursor: pointer" class="previous" ng-hide="beer_start_index==0"><a ng-click="clickedPrevious(filteredItems.length)">Previous</a></li>
+    <li style="cursor: pointer" class="next" ng-hide="beer_start_index + beer_pagination_amount > posts.length || filteredItems.length < beer_pagination_amount"><a ng-click="clickedNext(posts.length)">Next</a></li>
+  </ul>
+<hr>
+  <!-- ****************************************** FOOTER ************************************************ -->
+    <footer>
+      <div class="pull-right">
+        &copy; BoboWebApps
+      </div>
+    </footer>
+</div>
+

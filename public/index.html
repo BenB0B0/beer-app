@@ -1,0 +1,39 @@
+<!--register.html-->
+<html>
+  <head>
+    <title>BeerTracker</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular-resource.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular-cookies.min.js"></script>
+    <script src="javascripts/beerApp.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
+  </head>
+
+  <body ng-app="beerApp">
+  <!-- ************************** NAV BAR ******************************** -->
+    <nav class="navbar-fluid navbar-default navbar-inverse navbar-fixed-top">
+        <div class="container">
+          <!-- Float Left Side -->
+          <a class="navbar-brand" href="#/"> Beer Tracker </a> <span class="navbar-brand pink-hover glyphicon glyphicon-tint"></span>
+          <p class="navbar-text" ng-init="ranSlogan()">{{slogan}}</p>
+
+          <p class="navbar-right navbar-text" ng-hide="authenticated"><a href="#/login">
+            <span class="glyphicon glyphicon-log-in"></span> Login</a> or <a href="#/register">
+            <span class="glyphicon glyphicon-user"></span> Register</a>
+          </p>
+          
+          <!-- Float Right Side -->
+          <p class="navbar-right navbar-text" ng-show="authenticated"><a href="#/admin" ng-show="isAdmin">Admin</a> | 
+          <a class="navbar-right navbar-text" ng-show="authenticated"><a href="#/" ng-click="signout()">Logout</a></p>
+          <p class="navbar-right navbar-text" ng-show="authenticated">Signed in as @{{current_user}}</p>
+        </div>
+    </nav>
+
+    <div class="col-md-offset-1 col-md-10">
+        <div ng-view></div>      
+    </div>
+  </body>
+
+</html>
