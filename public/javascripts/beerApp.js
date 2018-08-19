@@ -10,7 +10,6 @@ var app = angular.module('beerApp', ['ngRoute', 'ngResource', 'ngCookies'])
   $rootScope.beer_start_index = 0;
   $rootScope.beer_pagination_amount = 5;
   $rootScope.show_more_info = false;
-
   //Beer Stats variables 
   $rootScope.amountRated = 0;
   $rootScope.averageRating = 0;
@@ -19,6 +18,10 @@ var app = angular.module('beerApp', ['ngRoute', 'ngResource', 'ngCookies'])
   //User Stats variables
   $rootScope.topRatedType = [];
   $rootScope.favoriteBeers = [];
+  //Modal 
+  $rootScope.beer_map_show = false;
+  $rootScope.random_beer_show = false;
+  $rootScope.random_brewery_show = false;
 
   $rootScope.signout = function(){
     $http.get('auth/signout');
@@ -250,6 +253,36 @@ app.controller('mainController', function($rootScope, $scope, postService){
     });
 
   };
+  
+  /***** MODAL ******/ 
+  var modal = document.getElementById('myModal');
+  // Get the button that opens the modal
+  var beer_map = document.getElementById("beer_map");
+  var random_beer = document.getElementById("random_beer");
+  var random_brewery = document.getElementById("random_brewery");
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+  // When the user clicks the button, open the modal 
+  beer_map.onclick = function() { modal.style.display = "block"; }
+  random_beer.onclick = function() { modal.style.display = "block"; }
+  random_brewery.onclick = function() { modal.style.display = "block"; }
+  
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+      modal.style.display = "none";
+      $rootScope.beer_map_show = false;
+      $rootScope.random_beer_show = false;
+      $rootScope.random_brewery_show = false;
+  }
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+          $rootScope.beer_map_show = false;
+          $rootScope.random_beer_show = false;
+          $rootScope.random_brewery_show = false;
+      }
+  }
 
 });
 

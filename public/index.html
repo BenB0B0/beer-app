@@ -9,12 +9,13 @@
     <script src="javascripts/beerApp.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="icon" href="\img\favicon.png">
   </head>
 
   <body ng-app="beerApp">
   <!-- ************************** NAV BAR ******************************** -->
     <nav class="navbar-fluid navbar-default navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div class="container navbar-spacing">
           <!-- Float Left Side -->
           <a class="navbar-brand" href="#/"> Beer Tracker </a> <span class="navbar-brand pink-hover glyphicon glyphicon-tint"></span>
           <p class="navbar-text" ng-init="ranSlogan()">{{slogan}}</p>
@@ -30,6 +31,24 @@
           <p class="navbar-right navbar-text" ng-show="authenticated">Signed in as @{{current_user}}</p>
         </div>
     </nav>
+    
+    <!-- Trigger/Open The Modal -->
+    <div class="pannel-buttons-container pull-right" ng-show="Beer_List == 'Beer List'">
+      <input class="btn btn-warning btn-xs pannel-buttons" ng-click="beer_map_show=true" value="Pub Map" type="submit" id="beer_map"/>
+      <input class="btn btn-success btn-xs pannel-buttons" ng-click="random_beer_show=true" value="Random Beer" type="submit" id="random_beer" />
+      <input class="btn btn-info btn-xs pannel-buttons" ng-click="random_brewery_show=true" value="Random Brewery" type="submit" id="random_brewery" />
+    </div>
+    
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <iframe ng-show="beer_map_show" style="width:100%; height: 100%; border: 1px black" src="https://beermapping.com/location/" scrolling="no"></iframe>
+        <p ng-show="random_beer_show">Random Beer</p>
+        <p ng-show="random_brewery_show">Random Brewery</p>
+      </div>
+    </div>
 
     <div class="col-md-offset-1 col-md-10">
         <div ng-view></div>      

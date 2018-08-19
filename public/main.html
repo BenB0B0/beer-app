@@ -114,10 +114,11 @@
           </div>
         </div>
   </div>
-  <ul class="pager">
+  <ul class="pager" ng-hide="showBackToBeerList(searchText) && Beer_List != ''">
     <li style="cursor: pointer" class="previous" ng-hide="beer_start_index==0"><a ng-click="clickedPrevious(filteredItems.length)">Previous</a></li>
     <li style="cursor: pointer" class="next" ng-hide="beer_start_index + beer_pagination_amount > posts.length || filteredItems.length < beer_pagination_amount"><a ng-click="clickedNext(posts.length)">Next</a></li>
   </ul>
+
 <hr>
   <!-- ****************************************** FOOTER ************************************************ -->
     <footer>
