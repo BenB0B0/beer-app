@@ -312,6 +312,7 @@ footer {
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    
 }
 
 /* Modal Content */
@@ -336,4 +337,13 @@ footer {
     color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+
+.beer-map {
+  max-height: 70vh;
+}
+
+.modal-ran-beer {
+  font-weight: bold;
+  display: inline;
 }

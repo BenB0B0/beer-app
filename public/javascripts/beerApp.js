@@ -22,7 +22,11 @@ var app = angular.module('beerApp', ['ngRoute', 'ngResource', 'ngCookies'])
   $rootScope.beer_map_show = false;
   $rootScope.random_beer_show = false;
   $rootScope.random_brewery_show = false;
-
+  $rootScope.random_beername_text = "";
+  $rootScope.random_beerabv_text = ""; 
+  $rootScope.random_beerfrom_text = "";
+  $rootScope.random_beertype_text = "";
+  
   $rootScope.signout = function(){
     $http.get('auth/signout');
     $rootScope.authenticated = false;
@@ -264,7 +268,16 @@ app.controller('mainController', function($rootScope, $scope, postService){
   var span = document.getElementsByClassName("close")[0];
   // When the user clicks the button, open the modal 
   beer_map.onclick = function() { modal.style.display = "block"; }
-  random_beer.onclick = function() { modal.style.display = "block"; }
+  random_beer.onclick = function() {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", "https://cors.io/?https://prost.herokuapp.com/api/v1/beer/rand", false ); // false for synchronous request
+    xmlHttp.send( null );
+    $rootScope.random_beername_text = JSON.parse(xmlHttp.responseText).title;
+    $rootScope.random_beerabv_text = JSON.parse(xmlHttp.responseText).abv;
+    $rootScope.random_beerfrom_text = JSON.parse(xmlHttp.responseText).country.title;
+    $rootScope.random_beertype_text = JSON.parse(xmlHttp.responseText).tags[0];
+    modal.style.display = "block"; 
+  }
   random_brewery.onclick = function() { modal.style.display = "block"; }
   
   // When the user clicks on <span> (x), close the modal

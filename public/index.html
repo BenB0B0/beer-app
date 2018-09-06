@@ -44,8 +44,11 @@
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span>
-        <iframe ng-show="beer_map_show" style="width:100%; height: 100%; border: 1px black" src="https://beermapping.com/location/" scrolling="no"></iframe>
-        <p ng-show="random_beer_show">Random Beer</p>
+        <iframe ng-show="beer_map_show" style="width:100%; height: 100%; border: 1px black" src="https://beermapping.com/location/" class="beer-map" scrolling="no"></iframe>
+        <p ng-show="random_beer_show" class="modal-ran-beer">Beer:</p> <p>{{random_beername_text}}</p>
+        <p ng-show="random_beer_show" class="modal-ran-beer">Type:</p> <p>{{random_beertype_text}}</p>
+        <p ng-show="random_beer_show" class="modal-ran-beer">Alc %:</p> <p>{{random_beerabv_text}}</p>
+        <p ng-show="random_beer_show" class="modal-ran-beer">From:</p> <p>{{random_beerfrom_text}}</p>
         <p ng-show="random_brewery_show">Random Brewery</p>
       </div>
     </div>
